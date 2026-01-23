@@ -263,13 +263,15 @@ If you find this project helpful, feel free to explore more of our work!
 
 ## ⭐ Star History
 
-<a href="https://www.star-history.com/#usail-hkust/LLM-MM-Agent&type=timeline&legend=top-left">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=usail-hkust/LLM-MM-Agent&type=timeline&theme=dark&legend=top-left" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=usail-hkust/LLM-MM-Agent&type=timeline&legend=top-left" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=usail-hkust/LLM-MM-Agent&type=timeline&legend=top-left" />
-  </picture>
-</a>
+<div align="center">
+
+[![Stargazers repo roster for @usail-hkust/LLM-MM-Agent](https://reporoster.com/stars/usail-hkust/LLM-MM-Agent)](https://github.com/usail-hkust/LLM-MM-Agent/stargazers)
+
+[![Forkers repo roster for @usail-hkust/LLM-MM-Agent](https://reporoster.com/forks/usail-hkust/LLM-MM-Agent)](https://github.com/usail-hkust/LLM-MM-Agent/network/members)
+
+[![Star History Chart](https://api.star-history.com/svg?repos=usail-hkust/LLM-MM-Agent&type=Date)](https://star-history.com/#usail-hkust/LLM-MM-Agent&Date)
+
+</div>
 
 ---
 
