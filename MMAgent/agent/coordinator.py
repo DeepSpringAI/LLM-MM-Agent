@@ -1,6 +1,6 @@
 from collections import deque
 from prompt.template import TASK_DEPENDENCY_ANALYSIS_WITH_CODE_PROMPT, TASK_DEPENDENCY_ANALYSIS_PROMPT, DAG_CONSTRUCTION_PROMPT, CODE_STRUCTURE_PROMPT
-import json
+import json5
 import sys
 
 class Coordinator:
@@ -8,6 +8,7 @@ class Coordinator:
         self.llm = llm
         self.memory = {}
         self.code_memory = {}
+        self.DAG = {}
 
     def compute_dag_order(self, graph):
         """
@@ -61,12 +62,14 @@ class Coordinator:
             try:
                 dependency_DAG = self.dag_construction(len(task_descriptions), modeling_problem, problem_analysis, modeling_solution, task_descriptions, task_dependency_analysis)
                 dependency_DAG_string = dependency_DAG.strip('```json\n').strip('```')
-                self.DAG = json.loads(dependency_DAG_string)
+                self.DAG = json5.loads(dependency_DAG_string)
                 break
             except:
                 continue
-        if count == 5:
-            sys.exit("Fail at Task Dependency Analysis")
+        if self.DAG == {}:
+            # sys.exit("Fail at analyze_dependencies")
+            # default dependency DAG
+            self.DAG = {str(i): [str(j) for j in range(1, i)] for i in range(1, len(task_descriptions)+1)}
         order = self.compute_dag_order(self.DAG)
 
         return order
