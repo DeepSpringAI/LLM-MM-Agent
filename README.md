@@ -54,6 +54,11 @@
 5. **2025-07**
    🎉 Our paper *"MM-Agent: LLMs as Agents for Real-world Mathematical Modeling Problems"* has been accepted to the **AI4MATH Workshop at ICML 2025**!
    📄 [Read the paper on arXiv](https://arxiv.org/abs/2505.14148)
+6. **2026-01**
+   🎉 **Latest Demo Now Live / 最新演示已上线**
+   🚀 Experience our upgraded mathematical modeling platform! Join our WeChat group to get your invitation code for early access.
+   欢迎加入我们的微信群获取邀请码，抢先体验升级后的数学建模平台！
+   👉 访问 / Visit: [http://146.56.204.108:3000/](http://146.56.204.108:3000/)
 
 ---
 
