@@ -13,6 +13,8 @@
   &nbsp;&nbsp;
   <a href="https://arxiv.org/abs/2505.14148"><img src="https://img.shields.io/badge/📄-Paper-orange?style=for-the-badge" alt="Paper"></a>
   &nbsp;&nbsp;
+  <a href="https://github.com/usail-hkust/LLM-MM-Agent/issues/17"><img src="https://img.shields.io/badge/WeChat-Join_Group-07C160?style=for-the-badge&logo=wechat&logoColor=white" alt="WeChat"></a>
+  &nbsp;&nbsp;
   <a href="https://github.com/usail-hkust/LLM-MM-Agent/stargazers"><img src="https://img.shields.io/github/stars/usail-hkust/LLM-MM-Agent?style=for-the-badge" alt="Stars"></a>
   &nbsp;&nbsp;
   <img src="https://komarev.com/ghpvc/?username=usail-hkust&repo=LLM-MM-Agent&style=for-the-badge" alt="Profile views">
