@@ -165,11 +165,7 @@ def save_solution(solution, name, path):
 
 
 def mkdir(path):
-    if not os.path.dirname(os.path.dirname(path)):
-        os.mkdir(os.path.dirname(os.path.dirname(path)))
-    if not os.path.dirname(path):
-        os.mkdir(os.path.dirname(path))
-    os.mkdir(path)
+    os.makedirs(path, exist_ok=True)
     os.mkdir(path + '/json')
     os.mkdir(path + '/markdown')
     os.mkdir(path + '/latex')
