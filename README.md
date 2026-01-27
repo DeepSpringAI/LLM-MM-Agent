@@ -220,7 +220,7 @@ conda activate math_modeling
 3. **Navigate to Project Directory**
 
 ```bash
-cd MM-Agent
+cd LLM-MM-Agent
 ```
 
 4. **Install Dependencies**
