@@ -42,7 +42,7 @@ class LLM:
             self.model_name = model_name
         self.client = openai.Client(api_key=self.api_key, base_url=self.api_base)
 
-    def generate(self, prompt, system='', usage=True):
+    def generate(self, prompt, system="You are a helpful assistant.", usage=True):
         try:
             response = self.client.chat.completions.create(
                 model=self.model_name,
