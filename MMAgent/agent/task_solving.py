@@ -133,7 +133,7 @@ class TaskSolver(BaseAgent):
                 print(f"Retry! The code does not start with ```python")
                 continue
 
-        with open(os.path.join(work_dir, script_name), "w") as f:
+        with open(os.path.join(work_dir, script_name), "w", encoding='utf-8') as f:
             f.write(new_content)
         
         # Execute the script.
@@ -167,7 +167,7 @@ class TaskSolver(BaseAgent):
                 print(f"Retry! The code does not start with ```python")
                 continue
 
-        with open(os.path.join(work_dir, script_name), "w") as f:
+        with open(os.path.join(work_dir, script_name), "w", encoding='utf-8') as f:
             f.write(new_content)
         
         # Execute the script.
