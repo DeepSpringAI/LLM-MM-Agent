@@ -44,7 +44,7 @@
    🎉 **Latest Demo Now Live / 最新演示已上线**
    🚀 Experience our upgraded mathematical modeling platform! Join our WeChat group to get your invitation code for early access.
    欢迎加入我们的微信群获取邀请码，抢先体验升级后的数学建模平台！
-   👉 访问 / Visit: [http://cdn.mmagent.top/](http://cdn.mmagent.top/)
+   👉 访问 / ~~Visit: [http://cdn.mmagent.top/](http://cdn.mmagent.top/)~~ （Our demo link is no longer available due to server expiration, and we may open-source the demo soon.）
 2. **2026-01**
    ✨ **DSLIGHTING: 全流程数据科学智能助手 / End-to-End Data Science Intelligent Assistant**
    🌟 支持完整的数据科学工作流，数学建模场景专用优化 / Supports complete data science workflow with specialized optimization for mathematical modeling scenarios
