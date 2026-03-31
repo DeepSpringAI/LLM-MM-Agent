@@ -5,10 +5,7 @@ This `docs/` tree is a source-code-first tutorial set for understanding how MM-A
 ## Available now
 
 - English docs: [English documentation portal](en/README.md)
-
-## Planned in Phase 2
-
-- Chinese docs will be added in the follow-up commit on branch `doc-260401`.
+- 中文文档: [中文文档入口](zh/README.md)
 
 ## Documentation map
 
@@ -21,6 +18,13 @@ This `docs/` tree is a source-code-first tutorial set for understanding how MM-A
 | `docs/en/math-theory.md` | The fixed algorithms and formulas implemented in code |
 | `docs/en/source-guide.md` | Where to read in the repository and why |
 | `docs/en/evaluation.md` | MM-Bench structure and evaluation workflow |
+| `docs/zh/README.md` | 中文学习路径和阅读顺序 |
+| `docs/zh/quick-start.md` | 中文快速开始、运行命令与输出目录 |
+| `docs/zh/architecture.md` | 中文系统架构与模块职责解析 |
+| `docs/zh/workflow.md` | 中文执行流程逐阶段拆解 |
+| `docs/zh/math-theory.md` | 中文数学原理与算法解释 |
+| `docs/zh/source-guide.md` | 中文源码导读 |
+| `docs/zh/evaluation.md` | 中文评测与 MM-Bench 说明 |
 
 ## Why this docs tree exists
 
