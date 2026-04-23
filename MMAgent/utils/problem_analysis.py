@@ -9,17 +9,21 @@ import shutil
 
 
 def get_problem(problem_path, llm):
+    print(f'[Stage1] Load problem file: {problem_path}', flush=True)
     problem = read_json_file(problem_path)
     data_description = problem.get('dataset_description', {})
     ds = DataDescription(llm)
     
     if data_description:
+        print('[Stage1] Summarizing dataset description with LLM', flush=True)
         data_path = problem['dataset_path']
         variable_description = problem['variable_description']
         data_summary = ds.summary(data_description=str(data_description) + '\n' + str(variable_description))
         data_summary = f'Dataset Path:\n{data_path}\n\nData Description:\n{data_summary}'
+        print('[Stage1] Dataset summary complete', flush=True)
     else:
         data_summary = ''
+        print('[Stage1] No dataset description found, skipping summary', flush=True)
 
     problem['data_summary'] = data_summary
     problem['data_description'] = data_description
@@ -36,6 +40,7 @@ def get_problem(problem_path, llm):
 
 def problem_analysis(llm, problem_path, config, dataset_path, output_dir):
     # Get problem
+    print('[Stage1] Building problem prompt', flush=True)
     problem_str, problem = get_problem(problem_path, llm)
     problem_type = os.path.splitext(os.path.basename(problem_path))[0].split('_')[-1]
     
@@ -46,21 +51,26 @@ def problem_analysis(llm, problem_path, config, dataset_path, output_dir):
 
     # Problem Understanding
     pu = ProblemUnderstanding(llm)
+    print('[Stage1] Running problem understanding analysis', flush=True)
     problem_analysis = pu.analysis(problem_str, round=config['problem_analysis_round'])
     solution['problem_analysis'] = problem_analysis
+    print('[Stage1] Problem understanding analysis complete', flush=True)
 
     # High level probelm understanding modeling
+    print('[Stage1] Running high-level modeling', flush=True)
     modeling_solution = pu.modeling(problem_str, problem_analysis, round=config['problem_modeling_round'])
     print('********************* Step 1: Problem Understanding finish *********************')
 
     # Problem Decomposition
     pd = ProblemDecompose(llm)
+    print('[Stage1] Running problem decomposition', flush=True)
     task_descriptions = pd.decompose_and_refine(problem_str, problem_analysis, modeling_solution, problem_type, config['tasknum'])
     print('********************* Step 2: Problem Decomposition finish *********************')
 
     # Task Dependency Analysis
     with_code = len(problem['dataset_path']) > 0
     coordinator = Coordinator(llm)
+    print('[Stage1] Running dependency analysis', flush=True)
     order = coordinator.analyze_dependencies(problem_str, problem_analysis, modeling_solution, task_descriptions, with_code)
     order = [int(i) for i in order]
     if with_code:

@@ -7,12 +7,23 @@ This page is for the fastest possible path from clone to a valid MM-Agent run.
 The repository README recommends Python 3.10 and an optional Conda environment.
 
 ```bash
-conda create --name math_modeling python=3.10
-conda activate math_modeling
-pip install -r requirements.txt
+uv sync --project .
 ```
 
-## 2. Run from the repository root
+## 2. Start the local middleware
+
+The agent expects a standard OpenAI-compatible `/v1` endpoint. Start the bundled middleware first:
+
+```bash
+cd openai_compat_middleware
+uv sync
+cp .env.example .env
+uv run openai-compat-middleware
+```
+
+Then return to repository root for agent execution.
+
+## 3. Run from the repository root
 
 Run commands from the repository root, not from inside `MMAgent/`.
 
@@ -23,45 +34,43 @@ Why? Several paths are assembled as repository-relative strings, such as:
 - `MMAgent/output/{method_name}/{task}_{timestamp}`
 - `MMAgent/code_template/main{task_id}.py`
 
-## 3. Minimal command
+## 4. Minimal command
 
 ```bash
-python MMAgent/main.py --key "YOUR_API_KEY" --task "2024_C"
+uv run --project . python MMAgent/main.py --key "YOUR_API_KEY" --task "2024_C"
 ```
 
 Example with explicit defaults:
 
 ```bash
-python MMAgent/main.py \
+uv run --project . python MMAgent/main.py \
   --key "sk-..." \
   --task "2024_C" \
-  --model_name "gpt-4o" \
+  --model_name "gpt-5" \
   --method_name "MM-Agent"
 ```
 
-## 4. What each CLI argument means
+## 5. What each CLI argument means
 
 | Argument | Default | Meaning |
 | --- | --- | --- |
-| `--model_name` | `gpt-4o` | The chat-completions model used by `LLM` |
+| `--model_name` | `gpt-5` | The chat-completions model used by `LLM` |
 | `--method_name` | `MM-Agent` | Output namespace under `MMAgent/output/` |
 | `--task` | `2024_C` | Problem ID under `MMBench/problem/` |
 | `--key` | empty string | API key passed into the LLM wrapper |
 
 If `--key` is empty, the LLM wrapper raises a `ValueError`.
 
-## 5. API base selection logic
+## 6. API base selection logic
 
-`MMAgent/llm/llm.py` chooses the backend URL like this:
+`MMAgent/llm/llm.py` reads:
 
-- `gpt-4o` and `gpt-4` read `OPENAI_API_BASE`.
-- `deepseek-chat` and `deepseek-reasoner` read `DEEPSEEK_API_BASE`.
-- `qwen2.5-72b-instruct` uses DashScope's OpenAI-compatible endpoint.
-- Other models default to `https://api.openai.com/v1` unless overridden.
+- `OPENAI_API_BASE` (recommended: `http://127.0.0.1:4010/v1` for local middleware).
+- If unset, it defaults to `https://api.openai.com/v1`.
 
-In plain English: **the same runtime expects an OpenAI-compatible API, but the base URL depends on the model family.**
+In plain English: **the agent always speaks standard OpenAI-compatible API; custom routing belongs in middleware config.**
 
-## 6. What happens on disk during one run
+## 7. What happens on disk during one run
 
 `get_info()` creates a timestamped output directory and `mkdir()` populates the following subfolders:
 
@@ -92,7 +101,7 @@ Notes:
 - `latex/` exists even if the optional paper-generation stage is not enabled.
 - Usage statistics and runtime are written under `usage/`.
 
-## 7. What a successful run prints conceptually
+## 8. What a successful run prints conceptually
 
 The runtime logs stage boundaries like:
 
@@ -103,12 +112,12 @@ The runtime logs stage boundaries like:
 
 This makes the terminal feel like a small pipeline runner rather than a single prompt-response tool.
 
-## 8. Evaluate a generated solution
+## 9. Evaluate a generated solution
 
 Single solution:
 
 ```bash
-python MMBench/evaluation/run_evaluation.py \
+uv run --project . python MMBench/evaluation/run_evaluation.py \
   --solution_file_path "path/to/solution.json" \
   --key "YOUR_API_KEY"
 ```
@@ -116,12 +125,12 @@ python MMBench/evaluation/run_evaluation.py \
 Batch evaluation:
 
 ```bash
-python MMBench/evaluation/run_evaluation_batch.py \
+uv run --project . python MMBench/evaluation/run_evaluation_batch.py \
   --solution_dir "path/to/solution_dir" \
   --key "YOUR_API_KEY"
 ```
 
-## 9. Troubleshooting checklist
+## 10. Troubleshooting checklist
 
 - If imports fail, confirm you are running from the repository root.
 - If the LLM call fails immediately, check `--key` and the relevant API base environment variable.

@@ -1,0 +1,32 @@
+[project]
+name = "llm-mm-agent-main"
+version = "0.1.0"
+description = "MM-Agent"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "openai",
+    "python-dotenv",
+    "streamlit",
+    "pyyaml",
+    "bcrypt",
+    "matplotlib",
+    "numpy",
+    "pandas",
+    "pypandoc",
+    "tiktoken",
+    "anthropic",
+    "helm",
+    "torch>=2.6.0",
+    "torchvision>=0.21.0",
+    "sentence-transformers",
+    "pymc",
+    "transformers>=4.45.2",
+    "scipy",
+    "statsmodels",
+    "hmmlearn",
+    "pmdarima",
+    "scikit-image",
+    "pylatex",
+    "pyarrow>=15.0.0",
+]

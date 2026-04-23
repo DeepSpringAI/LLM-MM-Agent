@@ -37,7 +37,7 @@ def run(key, problem_path, config, name, dataset_path, output_dir):
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model_name', type=str, default='gpt-4o')
+    parser.add_argument('--model_name', type=str, default='gpt-5')
     parser.add_argument('--method_name', type=str, default='MM-Agent')
     parser.add_argument('--task', type=str, default='2024_C')
     parser.add_argument('--key', type=str, default='')
@@ -45,11 +45,22 @@ def parse_arguments():
     return parser.parse_args()
 
 
-if __name__ == "__main__":
+def main():
     args = parse_arguments()
     problem_path, config, dataset_dir, output_dir = get_info(args)
     start = time.time()
-    solution = run(key=args.key, problem_path=problem_path, config=config, name=args.task, dataset_path=dataset_dir, output_dir=output_dir)
+    run(
+        key=args.key,
+        problem_path=problem_path,
+        config=config,
+        name=args.task,
+        dataset_path=dataset_dir,
+        output_dir=output_dir,
+    )
     end = time.time()
-    with open(output_dir + '/usage/runtime.txt', 'w') as f:
+    with open(output_dir + "/usage/runtime.txt", "w") as f:
         f.write("{:.2f}s".format(end - start))
+
+
+if __name__ == "__main__":
+    main()

@@ -7,12 +7,23 @@
 仓库 README 推荐使用 Python 3.10，并建议使用 Conda。
 
 ```bash
-conda create --name math_modeling python=3.10
-conda activate math_modeling
-pip install -r requirements.txt
+uv sync --project .
 ```
 
-## 2. 一定要在仓库根目录运行
+## 2. 先启动本地中间件
+
+Agent 只要求标准 OpenAI 兼容 `/v1` 接口。请先启动仓库内置中间件：
+
+```bash
+cd openai_compat_middleware
+uv sync
+cp .env.example .env
+uv run openai-compat-middleware
+```
+
+启动后再回到仓库根目录运行 Agent。
+
+## 3. 一定要在仓库根目录运行
 
 命令请从仓库根目录执行，而不是进入 `MMAgent/` 之后再跑。
 
@@ -25,47 +36,45 @@ pip install -r requirements.txt
 
 如果你切到错误目录执行，很多路径都会直接失效。
 
-## 3. 最小运行命令
+## 4. 最小运行命令
 
 ```bash
-python MMAgent/main.py --key "YOUR_API_KEY" --task "2024_C"
+uv run --project . python MMAgent/main.py --key "YOUR_API_KEY" --task "2024_C"
 ```
 
 带显式默认值的写法如下：
 
 ```bash
-python MMAgent/main.py \
+uv run --project . python MMAgent/main.py \
   --key "sk-..." \
   --task "2024_C" \
-  --model_name "gpt-4o" \
+  --model_name "gpt-5" \
   --method_name "MM-Agent"
 ```
 
-## 4. CLI 参数逐个解释
+## 5. CLI 参数逐个解释
 
 | 参数 | 默认值 | 含义 |
 | --- | --- | --- |
-| `--model_name` | `gpt-4o` | 传给 `LLM` 包装器的模型名 |
+| `--model_name` | `gpt-5` | 传给 `LLM` 包装器的模型名 |
 | `--method_name` | `MM-Agent` | 输出目录 `MMAgent/output/` 下的命名空间 |
 | `--task` | `2024_C` | `MMBench/problem/` 下的题目 ID |
 | `--key` | 空字符串 | 传给 LLM 包装器的 API Key |
 
 如果 `--key` 为空，`LLM` 初始化时会直接抛出 `ValueError`。
 
-## 5. API Base 是怎么选的
+## 6. API Base 是怎么选的
 
-`MMAgent/llm/llm.py` 中的逻辑是：
+`MMAgent/llm/llm.py` 的逻辑是：
 
-- `gpt-4o` 和 `gpt-4` 读取 `OPENAI_API_BASE`
-- `deepseek-chat` 和 `deepseek-reasoner` 读取 `DEEPSEEK_API_BASE`
-- `qwen2.5-72b-instruct` 走 DashScope 的 OpenAI 兼容端点
-- 其他模型默认走 `https://api.openai.com/v1`
+- 优先读取 `OPENAI_API_BASE`（建议本地设为 `http://127.0.0.1:4010/v1`）
+- 若未设置，则默认 `https://api.openai.com/v1`
 
 说得更接地气一点：
 
-> 这个系统默认假设你面对的是一个 OpenAI 兼容接口，但不同模型家族会切不同 base URL。
+> Agent 始终使用标准 OpenAI 兼容接口；所有定制路由/头部都在中间件里处理。
 
-## 6. 一次运行会在磁盘上产生什么
+## 7. 一次运行会在磁盘上产生什么
 
 `get_info()` 会创建带时间戳的输出目录，`mkdir()` 会再补齐以下子目录：
 
@@ -96,7 +105,7 @@ flowchart LR
 - 即便论文生成阶段默认未启用，`latex/` 目录也会被创建。
 - usage 统计和总运行时间会写到 `usage/` 下。
 
-## 7. 终端里大概会看到什么
+## 8. 终端里大概会看到什么
 
 运行时会打印清晰的阶段边界，例如：
 
@@ -107,12 +116,12 @@ flowchart LR
 
 所以它更像一个“小型流水线调度器”，而不是单轮问答工具。
 
-## 8. 如何评测生成结果
+## 9. 如何评测生成结果
 
 评测单个解答：
 
 ```bash
-python MMBench/evaluation/run_evaluation.py \
+uv run --project . python MMBench/evaluation/run_evaluation.py \
   --solution_file_path "path/to/solution.json" \
   --key "YOUR_API_KEY"
 ```
@@ -120,12 +129,12 @@ python MMBench/evaluation/run_evaluation.py \
 批量评测目录：
 
 ```bash
-python MMBench/evaluation/run_evaluation_batch.py \
+uv run --project . python MMBench/evaluation/run_evaluation_batch.py \
   --solution_dir "path/to/solution_dir" \
   --key "YOUR_API_KEY"
 ```
 
-## 9. 常见故障排查
+## 10. 常见故障排查
 
 - 如果 import 失败，优先确认是否从仓库根目录执行。
 - 如果 LLM 调用一开始就失败，检查 `--key` 和对应的环境变量。

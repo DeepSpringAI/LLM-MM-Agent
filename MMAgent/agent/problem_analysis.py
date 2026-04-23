@@ -19,11 +19,16 @@ class ProblemUnderstanding(BaseAgent):
         return self.llm.generate(prompt)
 
     def analysis(self, modeling_problem: str, round: int = 3, user_prompt: str = ''):
+        print('[Stage1] analysis_actor start', flush=True)
         problem_analysis = self.analysis_actor(modeling_problem, user_prompt)
+        print('[Stage1] analysis_actor done', flush=True)
         for i in range(round):
+            print(f'[Stage1] analysis_critic round {i + 1} start', flush=True)
             problem_analysis_critique = self.analysis_critic(modeling_problem, problem_analysis)
+            print(f'[Stage1] analysis_improvement round {i + 1} start', flush=True)
             problem_analysis_improvement = self.analysis_improvement(modeling_problem, problem_analysis, problem_analysis_critique, user_prompt)
             problem_analysis = problem_analysis_improvement
+            print(f'[Stage1] analysis round {i + 1} complete', flush=True)
         return problem_analysis
 
     def modeling_actor(self, modeling_problem: str, problem_analysis: str, user_prompt: str=''):
@@ -39,9 +44,14 @@ class ProblemUnderstanding(BaseAgent):
         return self.llm.generate(prompt)
 
     def modeling(self, modeling_problem: str, problem_analysis: str, round: int = 3, user_prompt: str = ''):
+        print('[Stage1] modeling_actor start', flush=True)
         modeling_solution = self.modeling_actor(modeling_problem, problem_analysis, user_prompt)
+        print('[Stage1] modeling_actor done', flush=True)
         for i in range(round):
+            print(f'[Stage1] modeling_critic round {i + 1} start', flush=True)
             modeling_solution_critique = self.modeling_critic(modeling_problem, problem_analysis, modeling_solution)
+            print(f'[Stage1] modeling_improvement round {i + 1} start', flush=True)
             modeling_solution_improvement = self.modeling_improvement(modeling_problem, problem_analysis, modeling_solution, modeling_solution_critique, user_prompt)
             modeling_solution = modeling_solution_improvement
+            print(f'[Stage1] modeling round {i + 1} complete', flush=True)
         return modeling_solution

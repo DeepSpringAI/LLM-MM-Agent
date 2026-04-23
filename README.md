@@ -170,8 +170,8 @@ Our demo is available at [Hugging Face Spaces](https://huggingface.co/spaces/Mat
 
 ## 👾 Currently Supported Models
 
-* **OpenAI**: `gpt-4o`
-* **DeepSeek**: `deepseek-R1`
+* **OpenAI**: `gpt-5`, `gpt-5.2`, `gpt-4.1-mini`, `o4-mini`
+* **OpenAI Embeddings/Audio**: `text-embedding-3-small`, `whisper`
 
 ---
 
@@ -179,16 +179,26 @@ Our demo is available at [Hugging Face Spaces](https://huggingface.co/spaces/Mat
 
 ### 🔧 Running the Agent
 
-You can directly run the Mathematical Modeling Agent with:
+Start the local OpenAI-compatible middleware first:
 
 ```bash
-python MMAgent/main.py --key "your_openai_key" --task "task_id"
+cd openai_compat_middleware
+uv sync
+cp .env.example .env
+uv run openai-compat-middleware
+```
+
+Then run the Mathematical Modeling Agent (from repository root):
+
+```bash
+uv sync --project .
+uv run --project . python MMAgent/main.py --key "your_client_key_for_middleware" --task "task_id"
 ```
 
 **Example**:
 
 ```bash
-python MMAgent/main.py --key "sk-XXX" --task "2024_C"
+uv run --project . python MMAgent/main.py --key "client-key" --task "2024_C"
 ```
 
 Here, `task` corresponds to the problem ID from MM-Bench (e.g., `"2024_C"` refers to the 2024 MCM problem C).
@@ -226,7 +236,7 @@ cd LLM-MM-Agent
 4. **Install Dependencies**
 
 ```bash
-pip install -r requirements.txt
+uv sync --project .
 ```
 
 ---

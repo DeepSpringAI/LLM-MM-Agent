@@ -1,13 +1,11 @@
 import json
+import math
 from typing import List
 from functools import partial
 from .base_agent import BaseAgent
 from prompt.template import METHOD_CRITIQUE_PROMPT
 from utils.convert_format import markdown_to_json_method
 from utils.utils import parse_llm_output_to_json
-from utils.embedding import EmbeddingScorer
-
-import json
 
 
 class MethodScorer:
@@ -71,11 +69,44 @@ class MethodScorer:
                 })
 
 
+class APIEmbeddingScorer:
+
+    def __init__(self, llm, model_name: str = "text-embedding-3-small"):
+        self.client = llm.client
+        self.model_name = model_name
+
+    @staticmethod
+    def _cosine_similarity(v1: List[float], v2: List[float]) -> float:
+        dot = sum(a * b for a, b in zip(v1, v2))
+        norm1 = math.sqrt(sum(a * a for a in v1))
+        norm2 = math.sqrt(sum(b * b for b in v2))
+        if norm1 == 0 or norm2 == 0:
+            return 0.0
+        return dot / (norm1 * norm2)
+
+    def score_method(self, query: str, methods: List[dict]) -> List[dict]:
+        sentences = [f"{method['method']}: {method.get('description', '')}" for method in methods]
+        texts = [query] + sentences
+        response = self.client.embeddings.create(model=self.model_name, input=texts)
+        embeddings = [item.embedding for item in response.data]
+        query_embedding = embeddings[0]
+        method_embeddings = embeddings[1:]
+
+        result = []
+        for i, embedding in enumerate(method_embeddings, start=1):
+            similarity = self._cosine_similarity(query_embedding, embedding) * 100
+            result.append({
+                "method_index": i,
+                "score": float(similarity)
+            })
+        return result
+
+
 class MethodRetriever(BaseAgent):
     def __init__(self, llm, rag=True):
         super().__init__(llm)
         self.rag = rag
-        self.embedding_scorer = EmbeddingScorer()
+        self.embedding_scorer = APIEmbeddingScorer(llm)
         json_path = 'MMAgent/HMML/HMML.json'
         md_path = 'MMAgent/HMML/HMML.md'
 
@@ -101,10 +132,16 @@ class MethodRetriever(BaseAgent):
     def retrieve_meethods(self, problem_description: str, top_k: int=6, method: str='embedding'):
         if self.rag:
             if method == 'embedding':
-                score_func = partial(self.embedding_scorer.score_method, problem_description)
+                try:
+                    score_func = partial(self.embedding_scorer.score_method, problem_description)
+                    method_scores = MethodScorer(score_func).process(self.method_tree)
+                except Exception as e:
+                    print(f'Embedding retrieval failed, fallback to LLM scoring: {e}')
+                    score_func = partial(self.llm_score_method, problem_description)
+                    method_scores = MethodScorer(score_func).process(self.method_tree)
             else:
                 score_func = partial(self.llm_score_method, problem_description)
-            method_scores = MethodScorer(score_func).process(self.method_tree)
+                method_scores = MethodScorer(score_func).process(self.method_tree)
             method_scores.sort(key=lambda x: x['score'], reverse=True)
             return self.format_methods(method_scores[:top_k])
         else:
