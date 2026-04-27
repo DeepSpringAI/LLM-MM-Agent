@@ -1,5 +1,6 @@
 import json
 import math
+import os
 from typing import List
 from functools import partial
 from .base_agent import BaseAgent
@@ -71,9 +72,12 @@ class MethodScorer:
 
 class APIEmbeddingScorer:
 
-    def __init__(self, llm, model_name: str = "text-embedding-3-small"):
+    def __init__(self, llm, model_name: str | None = None):
         self.client = llm.client
-        self.model_name = model_name
+        self.model_name = (
+            model_name
+            or os.getenv("LLM_EMBEDDING_MODEL", "text-embedding-3-small")
+        )
 
     @staticmethod
     def _cosine_similarity(v1: List[float], v2: List[float]) -> float:
@@ -106,6 +110,15 @@ class MethodRetriever(BaseAgent):
     def __init__(self, llm, rag=True):
         super().__init__(llm)
         self.rag = rag
+        self.enable_embeddings = str(os.getenv("LLM_ENABLE_EMBEDDINGS", "false")).strip().lower() in {
+            "1",
+            "true",
+            "yes",
+            "y",
+            "on",
+        }
+        self.default_retrieval_method = os.getenv("LLM_RETRIEVAL_METHOD", "llm").strip().lower()
+        self._warned_embeddings_disabled = False
         self.embedding_scorer = APIEmbeddingScorer(llm)
         json_path = 'MMAgent/HMML/HMML.json'
         md_path = 'MMAgent/HMML/HMML.md'
@@ -131,6 +144,14 @@ class MethodRetriever(BaseAgent):
 
     def retrieve_meethods(self, problem_description: str, top_k: int=6, method: str='embedding'):
         if self.rag:
+            if method == 'embedding' and (not self.enable_embeddings or self.default_retrieval_method == "llm"):
+                method = "llm"
+                if not self._warned_embeddings_disabled:
+                    print(
+                        "Embedding retrieval is disabled (LLM_ENABLE_EMBEDDINGS=false or LLM_RETRIEVAL_METHOD=llm); "
+                        "using LLM scoring."
+                    )
+                    self._warned_embeddings_disabled = True
             if method == 'embedding':
                 try:
                     score_func = partial(self.embedding_scorer.score_method, problem_description)

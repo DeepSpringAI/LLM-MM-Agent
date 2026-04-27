@@ -37,7 +37,7 @@ def run(key, problem_path, config, name, dataset_path, output_dir):
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model_name', type=str, default='gpt-5')
+    parser.add_argument('--model_name', type=str, default='gpt-5.4')
     parser.add_argument('--method_name', type=str, default='MM-Agent')
     parser.add_argument('--task', type=str, default='2024_C')
     parser.add_argument('--key', type=str, default='')

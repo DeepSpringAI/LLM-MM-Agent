@@ -46,7 +46,7 @@ Example with explicit defaults:
 uv run --project . python MMAgent/main.py \
   --key "sk-..." \
   --task "2024_C" \
-  --model_name "gpt-5" \
+  --model_name "gpt-5.4" \
   --method_name "MM-Agent"
 ```
 
@@ -54,7 +54,7 @@ uv run --project . python MMAgent/main.py \
 
 | Argument | Default | Meaning |
 | --- | --- | --- |
-| `--model_name` | `gpt-5` | The chat-completions model used by `LLM` |
+| `--model_name` | `gpt-5.4` | The chat-completions model used by `LLM` |
 | `--method_name` | `MM-Agent` | Output namespace under `MMAgent/output/` |
 | `--task` | `2024_C` | Problem ID under `MMBench/problem/` |
 | `--key` | empty string | API key passed into the LLM wrapper |

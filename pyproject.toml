@@ -29,4 +29,5 @@ dependencies = [
     "scikit-image",
     "pylatex",
     "pyarrow>=15.0.0",
+    "json5>=0.14.0",
 ]

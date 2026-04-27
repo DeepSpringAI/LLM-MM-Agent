@@ -1,0 +1,40 @@
+{
+  "model_formula": "p1_win_point ~ p1_serving + C(set_no_cat) + set_diff + games_diff + late_set + C(score_state_model) + tiebreak + signed_break_point + signed_set_point + signed_match_point + multi_break_point + strength_diff_general + p1_serving:strength_diff_general + p1_serving:tiebreak + elapsed_minutes_centered",
+  "cleaning_report": {
+    "raw_rows_after_load": 7284,
+    "dropped_duplicate_point_keys": 0,
+    "dropped_missing_essential_rows": 0,
+    "dropped_bad_point_victor_rows": 0,
+    "final_rows_after_cleaning": 7284,
+    "n_matches": 31,
+    "audit_totals": {
+      "duplicate_point_keys": 0,
+      "missing_server": 0,
+      "bad_point_victor": 0,
+      "impossible_standard_scores": 0
+    }
+  },
+  "diagnostics": {
+    "brier_score": 0.21746743892748813,
+    "log_loss": 0.6260237093148875,
+    "mean_predicted_probability": 0.5104338275672411,
+    "observed_player1_point_win_rate": 0.5104338275672707,
+    "coefficient_snapshot": {
+      "p1_serving": 1.4423503043998729,
+      "strength_diff_general": -0.39643136508788634,
+      "tiebreak": -0.2614539152881939,
+      "signed_break_point": 0.1531066168047123,
+      "signed_set_point": -0.3342976951582349,
+      "signed_match_point": -0.24645660420831614,
+      "p1_serving:strength_diff_general": 0.7888293989441504,
+      "p1_serving:tiebreak": 0.15803348464446818
+    },
+    "calibration_table_path": "./task1_outputs/task1_calibration_table.csv"
+  },
+  "notes": [
+    "Player labels are already match-consistent in source data and retained as player1/player2 orientation.",
+    "Tiebreak status is inferred from non-standard point scores.",
+    "Pre-match strength uses restrained leave-match-out in-sample proxy from other matches only.",
+    "Baseline is intentionally parsimonious and excludes momentum-like lagged features."
+  ]
+}

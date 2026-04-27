@@ -29,15 +29,36 @@ def parse_llm_output_to_json(output_text: str) -> dict:
     """
     Safely parse LLM output text into a Python dictionary.
     """
-    start = output_text.find("{")
-    end = output_text.rfind("}") + 1
-    json_str = output_text[start:end]
     try:
-        data = json.loads(json_str)
-    except:
-        raise
-        data = {}
-    return data
+        if not isinstance(output_text, str):
+            return {}
+        text = output_text.strip()
+        if not text:
+            return {}
+        lowered = text.lower()
+        if "err_ngrok_3200" in lowered or "upstream ngrok endpoint error" in lowered or lowered.startswith("an error occurred:"):
+            return {}
+
+        if "```" in text:
+            parts = text.split("```")
+            for i in range(1, len(parts), 2):
+                candidate = parts[i]
+                candidate = candidate.split("\n", 1)[1] if "\n" in candidate else ""
+                candidate = candidate.strip()
+                if candidate.startswith("{") and candidate.endswith("}"):
+                    try:
+                        return json.loads(candidate)
+                    except Exception:
+                        pass
+
+        start = text.find("{")
+        end = text.rfind("}") + 1
+        if start == -1 or end <= start:
+            return {}
+        json_str = text[start:end]
+        return json.loads(json_str)
+    except Exception:
+        return {}
 
 def json_to_markdown(paper):
     """

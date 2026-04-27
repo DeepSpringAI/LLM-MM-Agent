@@ -10,6 +10,7 @@ import subprocess
 import selectors
 import tiktoken
 import json
+import re
 
 
 class EnvException(Exception):
@@ -73,6 +74,19 @@ class TaskSolver(BaseAgent):
     def __init__(self, llm):
         super().__init__(llm)
 
+    def _extract_python_code(self, completion: str) -> str | None:
+        if not isinstance(completion, str) or not completion.strip():
+            return None
+        # Prefer fenced python blocks anywhere in the completion.
+        match = re.search(r"```(?:python|py)\s*\n([\s\S]*?)```", completion, flags=re.IGNORECASE)
+        if match:
+            return match.group(1).strip()
+        # Fallback: if it starts with a generic fence, take first block.
+        match = re.search(r"```\s*\n([\s\S]*?)```", completion)
+        if match:
+            return match.group(1).strip()
+        return None
+
     def analysis(self, prompt: str, task_description: str, user_prompt: str = ''):
         prompt = TASK_ANALYSIS_PROMPT.format(prompt=prompt, task_description=task_description, user_prompt=user_prompt).strip()
         return self.llm.generate(prompt)
@@ -122,16 +136,26 @@ class TaskSolver(BaseAgent):
     def coding_actor(self, data_file, data_summary, variable_description, task_description: str, task_analysis: str, formulas: str, modeling: str, dependent_file_prompt: str, code_template: str, script_name: str, work_dir: str, user_prompt: str = ''):
         prompt = TASK_CODING_PROMPT.format(data_file=data_file, data_summary=data_summary, variable_description=variable_description, task_description=task_description, task_analysis=task_analysis, modeling_formulas=formulas, modeling_process=modeling, dependent_file_prompt=dependent_file_prompt, code_template=code_template, user_prompt=user_prompt).strip()
         max_retry = 0
+        new_content = None
+        last_error = None
         while max_retry < 5:
             max_retry += 1
             try:
                 completion = self.llm.generate(prompt)
-                new_content = completion.split("```python")[1].split("```")[0].strip()
-                break  
+                new_content = self._extract_python_code(completion)
+                if new_content:
+                    break
+                last_error = ValueError("No fenced python code block found in completion.")
             except Exception as e:
-                # Format control.
-                print(f"Retry! The code does not start with ```python")
+                last_error = e
+                print("Retry! Failed to extract fenced python code.")
                 continue
+
+        if not new_content:
+            raise EnvException(
+                "Failed to generate executable python code after retries. "
+                f"Last error: {type(last_error).__name__}: {last_error}"
+            )
 
         with open(os.path.join(work_dir, script_name), "w", encoding='utf-8') as f:
             f.write(new_content)
@@ -156,16 +180,26 @@ class TaskSolver(BaseAgent):
         prompt = TASK_CODING_DEBUG_PROMPT.format(code_template=code_template, modeling_process=modeling, code=code, observation=observation, user_prompt=user_prompt).strip()
         
         max_retry = 0
+        new_content = None
+        last_error = None
         while max_retry < 5:
             max_retry += 1
             try:
                 completion = self.llm.generate(prompt)
-                new_content = completion.split("```python")[1].split("```")[0].strip()
-                break  
+                new_content = self._extract_python_code(completion)
+                if new_content:
+                    break
+                last_error = ValueError("No fenced python code block found in completion.")
             except Exception as e:
-                # Format control.
-                print(f"Retry! The code does not start with ```python")
+                last_error = e
+                print("Retry! Failed to extract fenced python code.")
                 continue
+
+        if not new_content:
+            raise EnvException(
+                "Failed to generate debugged python code after retries. "
+                f"Last error: {type(last_error).__name__}: {last_error}"
+            )
 
         with open(os.path.join(work_dir, script_name), "w", encoding='utf-8') as f:
             f.write(new_content)

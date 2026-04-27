@@ -1,0 +1,19 @@
+{
+  "dataset_rows": 7284,
+  "dataset_matches": 31,
+  "most_complex_match": {
+    "match_id": "2023-wimbledon-1701",
+    "player1": "Carlos Alcaraz",
+    "player2": "Novak Djokovic",
+    "estimated_total_tokens": 1947
+  },
+  "mean_estimated_total_tokens": 1207.967741935484,
+  "max_estimated_total_tokens": 1947,
+  "min_estimated_total_tokens": 596,
+  "all_matches_fit_under_5000": true,
+  "reported_error_context": {
+    "limit_type": "tokens",
+    "current_limit": 5000,
+    "interpretation": "Any reasoning workload estimated above this threshold should be chunked or summarized."
+  }
+}

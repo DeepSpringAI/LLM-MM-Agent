@@ -1,0 +1,64 @@
+                 Generalized Linear Model Regression Results                  
+==============================================================================
+Dep. Variable:           p1_win_point   No. Observations:                 7284
+Model:                            GLM   Df Residuals:                     7236
+Model Family:                Binomial   Df Model:                           47
+Link Function:                  Logit   Scale:                          1.0000
+Method:                          IRLS   Log-Likelihood:                -4560.0
+Date:                Sun, 26 Apr 2026   Deviance:                       9119.9
+Time:                        05:34:13   Pearson chi2:                 7.28e+03
+No. Iterations:                     4   Pseudo R-squ. (CS):             0.1252
+Covariance Type:            nonrobust                                         
+============================================================================================================================
+                                                               coef    std err          z      P>|z|      [0.025      0.975]
+----------------------------------------------------------------------------------------------------------------------------
+Intercept                                                   -0.7021      0.084     -8.372      0.000      -0.866      -0.538
+C(set_no_cat)[T.set_2]                                       0.0977      0.070      1.393      0.163      -0.040       0.235
+C(set_no_cat)[T.set_3]                                       0.2202      0.075      2.924      0.003       0.073       0.368
+C(set_no_cat)[T.set_4]                                       0.1178      0.088      1.338      0.181      -0.055       0.290
+C(set_no_cat)[T.set_5]                                       0.3933      0.127      3.098      0.002       0.144       0.642
+C(score_state_model)[T.0-15]                                -0.1173      0.111     -1.057      0.291      -0.335       0.100
+C(score_state_model)[T.0-30]                                -0.2889      0.141     -2.047      0.041      -0.566      -0.012
+C(score_state_model)[T.0-40]                                -0.5588      0.184     -3.033      0.002      -0.920      -0.198
+C(score_state_model)[T.15-0]                                -0.0611      0.106     -0.574      0.566      -0.270       0.147
+C(score_state_model)[T.15-15]                                0.0167      0.113      0.148      0.882      -0.204       0.238
+C(score_state_model)[T.15-30]                               -0.1086      0.130     -0.838      0.402      -0.363       0.145
+C(score_state_model)[T.15-40]                               -0.3002      0.159     -1.883      0.060      -0.613       0.012
+C(score_state_model)[T.30-0]                                -0.0175      0.132     -0.132      0.895      -0.277       0.242
+C(score_state_model)[T.30-15]                               -0.1804      0.124     -1.461      0.144      -0.423       0.062
+C(score_state_model)[T.30-30]                               -0.0638      0.131     -0.486      0.627      -0.321       0.194
+C(score_state_model)[T.30-40]                               -0.0281      0.154     -0.183      0.855      -0.330       0.273
+C(score_state_model)[T.40-0]                                 0.0644      0.166      0.388      0.698      -0.261       0.390
+C(score_state_model)[T.40-15]                                0.1361      0.155      0.877      0.381      -0.168       0.440
+C(score_state_model)[T.40-30]                               -0.0495      0.159     -0.311      0.756      -0.362       0.263
+C(score_state_model)[T.ad-in]                               -0.0945      0.170     -0.556      0.578      -0.428       0.239
+C(score_state_model)[T.ad-out]                              -0.1162      0.165     -0.706      0.480      -0.439       0.206
+C(score_state_model)[T.deuce]                               -0.0323      0.120     -0.270      0.787      -0.267       0.202
+C(score_state_model)[T.rare_score_state]                    -0.4094      0.515     -0.795      0.427      -1.419       0.600
+C(score_state_model)[T.tb_diff_-1_early_not_imminent]        0.5264      0.321      1.641      0.101      -0.102       1.155
+C(score_state_model)[T.tb_diff_-1_late_imminent]            -1.0612      0.526     -2.017      0.044      -2.092      -0.030
+C(score_state_model)[T.tb_diff_-2_early_not_imminent]       -0.5210      0.468     -1.114      0.265      -1.438       0.396
+C(score_state_model)[T.tb_diff_0_early_not_imminent]         0.2618      0.293      0.893      0.372      -0.313       0.837
+C(score_state_model)[T.tb_diff_0_late_imminent]             -1.1775      0.782     -1.505      0.132      -2.711       0.356
+C(score_state_model)[T.tb_diff_1_early_not_imminent]        -0.2016      0.304     -0.662      0.508      -0.798       0.395
+C(score_state_model)[T.tb_diff_1_late_imminent]              0.2442      0.671      0.364      0.716      -1.071       1.560
+C(score_state_model)[T.tb_diff_2_early_not_imminent]         0.1400      0.443      0.316      0.752      -0.728       1.008
+C(score_state_model)[T.tb_diff_2_late_imminent]              0.6070      0.671      0.904      0.366      -0.709       1.923
+C(score_state_model)[T.tb_diff_ge_3_early_imminent]         -0.3034      0.634     -0.479      0.632      -1.545       0.938
+C(score_state_model)[T.tb_diff_ge_3_early_not_imminent]      0.4326      0.590      0.734      0.463      -0.723       1.588
+C(score_state_model)[T.tb_diff_le_-3_early_imminent]         1.3582      0.802      1.694      0.090      -0.214       2.930
+C(score_state_model)[T.tb_diff_le_-3_early_not_imminent]    -0.1576      0.522     -0.302      0.763      -1.181       0.866
+p1_serving                                                   1.4424      0.065     22.350      0.000       1.316       1.569
+set_diff                                                     0.0772      0.028      2.772      0.006       0.023       0.132
+games_diff                                                   0.0483      0.021      2.337      0.019       0.008       0.089
+late_set                                                     0.0081      0.064      0.126      0.900      -0.118       0.134
+tiebreak                                                    -0.2615      0.202     -1.295      0.195      -0.657       0.134
+signed_break_point                                           0.1531      0.155      0.987      0.324      -0.151       0.457
+signed_set_point                                            -0.3343      0.198     -1.692      0.091      -0.722       0.053
+signed_match_point                                          -0.2465      0.316     -0.780      0.435      -0.866       0.373
+multi_break_point                                           -0.4457      0.237     -1.879      0.060      -0.911       0.019
+strength_diff_general                                       -0.3964      0.402     -0.986      0.324      -1.184       0.391
+p1_serving:strength_diff_general                             0.7888      0.557      1.416      0.157      -0.303       1.881
+p1_serving:tiebreak                                          0.1580      0.253      0.624      0.533      -0.339       0.655
+elapsed_minutes_centered                                    -0.0004      0.000     -1.779      0.075      -0.001    3.82e-05
+============================================================================================================================

@@ -48,7 +48,7 @@ uv run --project . python MMAgent/main.py --key "YOUR_API_KEY" --task "2024_C"
 uv run --project . python MMAgent/main.py \
   --key "sk-..." \
   --task "2024_C" \
-  --model_name "gpt-5" \
+  --model_name "gpt-5.4" \
   --method_name "MM-Agent"
 ```
 
@@ -56,7 +56,7 @@ uv run --project . python MMAgent/main.py \
 
 | 参数 | 默认值 | 含义 |
 | --- | --- | --- |
-| `--model_name` | `gpt-5` | 传给 `LLM` 包装器的模型名 |
+| `--model_name` | `gpt-5.4` | 传给 `LLM` 包装器的模型名 |
 | `--method_name` | `MM-Agent` | 输出目录 `MMAgent/output/` 下的命名空间 |
 | `--task` | `2024_C` | `MMBench/problem/` 下的题目 ID |
 | `--key` | 空字符串 | 传给 LLM 包装器的 API Key |

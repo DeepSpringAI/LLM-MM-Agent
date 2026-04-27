@@ -1,0 +1,31 @@
+Wimbledon 2023 Featured Matches Analysis Report
+============================================================
+Total point rows: 7,284
+Total matches: 31
+Total players: 32
+
+Top 5 longest/most complex matches:
+- 2023-wimbledon-1701: Carlos Alcaraz vs Novak Djokovic | duration=4:42:27 | points=334 | est_tokens=1947
+- 2023-wimbledon-1306: Jiri Lehecka vs Tommy Paul | duration=6:19:45 | points=332 | est_tokens=1848
+- 2023-wimbledon-1304: Alejandro Davidovich Fokina vs Holger Rune | duration=4:19:56 | points=337 | est_tokens=1761
+- 2023-wimbledon-1301: Carlos Alcaraz vs Nicolas Jarry | duration=3:56:11 | points=300 | est_tokens=1549
+- 2023-wimbledon-1310: Daniel Elahi Galan vs Mikael Ymer | duration=4:19:35 | points=318 | est_tokens=1528
+
+Top 10 players by wins / aces / winners:
+- Carlos Alcaraz: wins=5, matches=5, aces=33, winners=204, break_conv=0.333
+- Novak Djokovic: wins=4, matches=5, aces=47, winners=189, break_conv=0.321
+- Daniil Medvedev: wins=3, matches=4, aces=48, winners=127, break_conv=0.364
+- Jannik Sinner: wins=3, matches=4, aces=43, winners=156, break_conv=0.286
+- Christopher Eubanks: wins=2, matches=3, aces=53, winners=192, break_conv=0.368
+- Andrey Rublev: wins=2, matches=3, aces=41, winners=136, break_conv=0.312
+- Holger Rune: wins=2, matches=3, aces=32, winners=133, break_conv=0.25
+- Roman Safiullin: wins=2, matches=3, aces=25, winners=114, break_conv=0.545
+- Alexander Bublik: wins=1, matches=2, aces=49, winners=106, break_conv=0.286
+- Hubert Hurkacz: wins=1, matches=2, aces=49, winners=101, break_conv=0.5
+
+Rate-limit proxy interpretation:
+- Average estimated per-match token load: 1208.0
+- Maximum estimated per-match token load: 1947
+- Under the proxy model, all matches are checked against a 5000-token cap.
+- Matches fitting under 5000-token cap: 31/31
+- Operational guidance: for large-context analysis, summarize or chunk the most complex matches first.

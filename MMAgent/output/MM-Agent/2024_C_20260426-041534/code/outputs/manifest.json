@@ -1,0 +1,18 @@
+{
+  "generated_files": [
+    "outputs/wimbledon_points_cleaned.csv",
+    "outputs/wimbledon_match_summary.csv",
+    "outputs/wimbledon_player_summary.csv",
+    "outputs/wimbledon_rate_limit_proxy.csv",
+    "outputs/wimbledon_rate_limit_proxy_summary.json",
+    "outputs/wimbledon_point_pressure_segments.csv",
+    "outputs/wimbledon_analysis_report.txt"
+  ],
+  "row_counts": {
+    "clean_points": 7284,
+    "matches": 31,
+    "players": 32,
+    "pressure_points": 7284
+  },
+  "status": "success"
+}
